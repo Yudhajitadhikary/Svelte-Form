@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "..\\..\\App.svelte",
+    "..\\..\\Modal.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  import Modal from './Modal.svelte';\n  import AddPersonForm from './AddPersonForm.svelte';\n\n  let showModal = false;\n\n  let toggleModal = () => {\n    showModal = !showModal;\n  };\n\n\tlet people = [\n  ];\n\n  const handleClick = (e, id) => {\n    people = people.filter(person => person.id != id);\n    console.log(e);\n  };\n\n  const addPerson = (e) => {\n    //console.log(e.detail);\n    const person = e.detail;\n    people = [person, ...people];\n    showModal = false;\n  };\n</script>\n\n<Modal {showModal} on:click={toggleModal}>\n  <AddPersonForm on:addPerson={addPerson} />\n</Modal>\n\n<main>\n  <button on:click={toggleModal}>Add Player</button>\n  {#each people as person (person.id)}\n    <div>\n      <h4>{person.name}</h4>\n      {#if person.level === 'Master'}\n        <p><strong>MASTER PLAYER</strong></p>\n      {/if}\n      <p>{person.age} years old, {person.level} level.</p>\n      <button on:click={(e) => handleClick(e, person.id)}>delete</button>\n    </div>\n  {:else}\n    <p>There are no playere to show...</p>\n  {/each}\n</main>\n\n<style>\n\tmain {\n\t\ttext-align: center;\n\t\tpadding: 1em;\n\t\tmax-width: 240px;\n\t\tmargin: 0 auto;\n\t}\n\n\t@media (min-width: 640px) {\n\t\tmain {\n\t\t\tmax-width: none;\n\t\t}\n\t}\n</style>",
+    "<script>\n  export let showModal = false;\n  export let isPromo = false;\n</script>\n\n{#if showModal}\n  <div class=\"backdrop\" class:promo={isPromo} on:click|self>\n    <div class=\"modal1\">\n      <slot></slot>\n    </div>\n  </div>\n{/if}\n\n<style>\n  .backdrop{\n    width: 100%;\n    height: 100%;\n    position: fixed;\n    background: rgba(0,0,0,0.8);\n  }\n  .modal1{\n    padding: 10px;\n    border-radius: 10px;\n    max-width: 400px;\n    margin: 10% auto;;\n    text-align: center;\n    background: white;\n  }\n  .promo .modal1{\n    background: crimson;\n    color: white;\n  }\n</style>"
+  ],
+  "names": [],
+  "mappings": "AA+CC,IAAI,eAAC,CAAC,AACL,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,GAAG,CACZ,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,CAAC,CAAC,IAAI,AACf,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAC1B,IAAI,eAAC,CAAC,AACL,SAAS,CAAE,IAAI,AAChB,CAAC,AACF,CAAC;AC5CA,uCAAS,CAAC,AACR,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,CACZ,QAAQ,CAAE,KAAK,CACf,UAAU,CAAE,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,GAAG,CAAC,AAC7B,CAAC,AACD,qCAAO,CAAC,AACN,OAAO,CAAE,IAAI,CACb,aAAa,CAAE,IAAI,CACnB,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,GAAG,CAAC,IAAI,CAChB,UAAU,CAAE,MAAM,CAClB,UAAU,CAAE,KAAK,AACnB,CAAC,AACD,qBAAM,CAAC,sBAAO,CAAC,AACb,UAAU,CAAE,OAAO,CACnB,KAAK,CAAE,KAAK,AACd,CAAC"
+}
